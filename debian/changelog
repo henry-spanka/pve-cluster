@@ -1,3 +1,9 @@
+pve-cluster (3.0-16) unstable; urgency=low
+
+  * implement two-factor authentication via DuoSecurity
+
+ -- Henry Spanka - myVirtualserver <henry@myvirtualserver.de>  Mon, 28 Sep 2015 17:22:03 +0200
+
 pve-cluster (3.0-15) unstable; urgency=low
 
   * datacenter.cfg: add new email_from option
