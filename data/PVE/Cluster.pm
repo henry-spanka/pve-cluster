@@ -66,6 +66,7 @@ my $observed = {
     'priv/shadow.cfg' => 1,
     '/qemu-server/' => 1,
     '/openvz/' => 1,
+    'duosecurity.cfg' => 1,
 };
 
 # only write output if something fails
@@ -1273,8 +1274,32 @@ my $datacenter_schema = {
     },
 };
 
+my $duosecurity_schema = {
+    type => "object",
+    additionalProperties => 0,
+    properties => {
+        integration_key => {
+            optional => 1,
+            type => 'string',
+            description => "Duo Security Integration Key",
+        },
+        secret_key => {
+            optional => 1,
+            type => 'string',
+            description => "Duo Security Secret Key",
+        },
+        hostname => {
+            optional => 1,
+            type => 'string',
+            description => "Duo Security API hostname",
+        },
+    },
+};
+
 # make schema accessible from outside (for documentation)
 sub get_datacenter_schema { return $datacenter_schema };
+
+sub get_duosecurity_schema { return $duosecurity_schema };
 
 sub parse_datacenter_config {
     my ($filename, $raw) = @_;
@@ -1288,9 +1313,25 @@ sub write_datacenter_config {
     return PVE::JSONSchema::dump_config($datacenter_schema, $filename, $cfg);
 }
 
+sub parse_duosecurity_config {
+    my ($filename, $raw) = @_;
+
+    return PVE::JSONSchema::parse_config($duosecurity_schema, $filename, $raw);
+}
+
+sub write_duosecurity_config {
+    my ($filename, $cfg) = @_;
+    
+    return PVE::JSONSchema::dump_config($duosecurity_schema, $filename, $cfg);
+}
+
 cfs_register_file('datacenter.cfg', 
 		  \&parse_datacenter_config,  
 		  \&write_datacenter_config);
+
+cfs_register_file('duosecurity.cfg', 
+          \&parse_duosecurity_config,  
+          \&write_duosecurity_config);
 
 sub parse_cluster_conf {
     my ($filename, $raw) = @_;
