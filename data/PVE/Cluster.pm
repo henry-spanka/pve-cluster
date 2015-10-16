@@ -68,6 +68,7 @@ my $observed = {
     '/openvz/' => 1,
     'duosecurity.cfg' => 1,
     'vzcompactall.cron' => 1,
+    'status.cfg' => 1,
 };
 
 # only write output if something fails
