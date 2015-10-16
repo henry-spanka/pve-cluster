@@ -67,6 +67,7 @@ my $observed = {
     '/qemu-server/' => 1,
     '/openvz/' => 1,
     'duosecurity.cfg' => 1,
+    'vzcompactall.cron' => 1,
 };
 
 # only write output if something fails
@@ -357,6 +358,38 @@ sub gen_pve_vzdump_files {
 	if ! -f $filename;
 
     gen_pve_vzdump_symlink();
+};
+
+my $vzcompactall_cron_default = <<__EOD;
+# cluster wide vzcompactall cron
+# Atomatically generated file - do not edit
+
+PATH="/usr/sbin:/usr/bin:/sbin:/bin"
+
+0 3 */2 * * vzcompactall
+
+__EOD
+
+sub gen_pve_vzcompactall_symlink {
+
+    my $filename = "/etc/pve/vzcompactall.cron";
+
+    my $link_fn = "/etc/cron.d/vzcompactall";
+
+    if ((-f $filename) && (! -l $link_fn)) {
+        rename($link_fn, "/root/etc_cron_vzcompactall.org"); # make backup if file exists
+        symlink($filename, $link_fn);
+    }
+}
+
+sub gen_pve_vzcompactall_files {
+
+    my $filename = "/etc/pve/vzcompactall.cron";
+
+    PVE::Tools::file_set_contents($filename, $vzcompactall_cron_default)
+    if ! -f $filename;
+
+    gen_pve_vzcompactall_symlink();
 };
 
 my $versions = {};
@@ -1271,6 +1304,11 @@ my $datacenter_schema = {
 	    format => 'email-opt',
 	    description => "Specify email address to send notification from (default is root@\$hostname)",
 	},
+    vzcompactall => {
+        optional => 1,
+        type => 'boolean',
+        description => 'Enable cron job to automatically compact all containers frequently',
+    },
     },
 };
 

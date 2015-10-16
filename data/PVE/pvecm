@@ -610,6 +610,7 @@ __PACKAGE__->register_method ({
 	PVE::Cluster::setup_rootsshconfig();
 
 	PVE::Cluster::gen_pve_vzdump_symlink();
+    PVE::Cluster::gen_pve_vzcompactall_symlink();
 
 	if (!PVE::Cluster::check_cfs_quorum(1)) {
 	    return undef if $param->{silent};
@@ -622,6 +623,7 @@ __PACKAGE__->register_method ({
 	PVE::Cluster::ssh_merge_keys();
 	PVE::Cluster::ssh_merge_known_hosts($nodename, $local_ip_address);
 	PVE::Cluster::gen_pve_vzdump_files();
+    PVE::Cluster::gen_pve_vzcompactall_files();
 
 	return undef;
     }});
