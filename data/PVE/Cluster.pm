@@ -366,7 +366,7 @@ my $vzcompactall_cron_default = <<__EOD;
 
 PATH="/usr/sbin:/usr/bin:/sbin:/bin"
 
-0 3 */2 * * vzcompactall
+0 3 */2 * *         root vzcompactall >/dev/null
 
 __EOD
 
