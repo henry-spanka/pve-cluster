@@ -1,3 +1,11 @@
+pve-cluster (4.0-1) unstable; urgency=low
+
+  * proxmox/pve-manager#4 - Change container layout from simfs to ploop
+
+  * proxmox/pve-manager#13 - Export stats to graphite/carbon and InfluxDB API
+ 
+ -- Henry Spanka - myVirtualserver <henry@myvirtualserver.de>  Fri, 13 Nov 2015 14:57:03 +0100
+
 pve-cluster (3.0-16) unstable; urgency=low
 
   * implement two-factor authentication via DuoSecurity
